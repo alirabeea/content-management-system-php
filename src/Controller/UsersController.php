@@ -44,8 +44,8 @@ class UsersController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add(){
+        $this->Authorization->skipAuthorization();
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
@@ -110,8 +110,8 @@ class UsersController extends AppController
         $this->Authentication->addUnauthenticatedActions(['login', 'add']);
     }
 
-    public function login()
-    {
+    public function login(){
+        $this->Authorization->skipAuthorization();
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
         if ($result->isValid()) {
@@ -128,6 +128,7 @@ class UsersController extends AppController
     }
 
     public function logout(){
+        $this->Authorization->skipAuthorization();
         $result = $this->Authentication->getResult();
         if ($result->isValid()) {
             $this->Authentication->logout();
